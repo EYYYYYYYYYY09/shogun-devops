@@ -1,7 +1,7 @@
-import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import React from "react";
+import { Outlet, Link } from "react-router-dom";
 
-function App() {
+export default function App() {
   return (
     <div style={{ fontFamily: "system-ui, Arial", padding: 24 }}>
       <header style={{ display: "flex", gap: 12, marginBottom: 24 }}>
@@ -19,10 +19,8 @@ function App() {
       </main>
 
       <footer style={{ marginTop: 40, color: "#666" }}>
-        Build by Shogun for DevOps first project
+        Built with ❤️
       </footer>
     </div>
   );
 }
-
-export default App;
