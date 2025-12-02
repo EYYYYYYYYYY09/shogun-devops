@@ -20,7 +20,8 @@ function App() {
 
       <footer style={{ marginTop: 40, color: "#666" }}>
         Build by Shogun for DevOps first project
-      </footer>
+      </footer>mkdir -p .github/workflows
+
     </div>
   );
 }
