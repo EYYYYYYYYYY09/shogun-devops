@@ -1,0 +1,79 @@
+name: Fullstack CI/CD to AWS
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+
+  # ----------------------------
+  # FRONTEND BUILD + DEPLOY
+  # ----------------------------
+  frontend:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Frontend Dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Build Frontend
+        run: |
+          cd frontend
+          npm run build
+
+      - name: Deploy to S3
+        uses: aws-actions/s3-sync@v2
+        with:
+          bucket: ${{ secrets.AWS_S3_BUCKET }}
+          region: ${{ secrets.AWS_REGION }}
+          source-dir: ./frontend/build
+
+      - name: Invalidate CloudFront
+        uses: awact/cloudfront-action@v1.1.0
+        with:
+          distribution-id: ${{ secrets.CF_DISTRIBUTION }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+
+  # ----------------------------
+  # BACKEND BUILD + DEPLOY
+  # ----------------------------
+  backend:
+    runs-on: ubuntu-latest
+    needs: frontend   # backend waits for frontend to finish
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Backend Dependencies
+        run: |
+          cd backend
+          npm install --production
+
+      - name: Deploy to EC2 (SSH)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            cd /var/www/shogun-backend
+            git pull
+            npm install --production
+            pm2 restart all
