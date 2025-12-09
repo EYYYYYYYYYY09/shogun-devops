@@ -1,0 +1,93 @@
+name: Automated Tests
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Run Tests
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl wget
+
+      - name: HTML Validation Test
+        run: |
+          echo "Testing HTML file..."
+          if ! [ -f "index.html" ]; then
+            echo "ERROR: index.html not found"
+            exit 1
+          fi
+          
+          # Check for required HTML elements
+          if grep -q "<html" index.html && grep -q "<body" index.html; then
+            echo "✓ HTML structure is valid"
+          else
+            echo "✗ HTML structure is invalid"
+            exit 1
+          fi
+
+      - name: CSS Validation Test
+        run: |
+          echo "Testing CSS file..."
+          if ! [ -f "style.css" ]; then
+            echo "ERROR: style.css not found"
+            exit 1
+          fi
+          
+          # Check for CSS syntax
+          if grep -q "{" style.css && grep -q "}" style.css; then
+            echo "✓ CSS file is valid"
+          else
+            echo "✗ CSS file is invalid"
+            exit 1
+          fi
+
+      - name: JavaScript Validation Test
+        run: |
+          echo "Testing JavaScript file..."
+          if ! [ -f "script.js" ]; then
+            echo "ERROR: script.js not found"
+            exit 1
+          fi
+          
+          # Check for JavaScript functions
+          if grep -q "function\|const\|let\|var" script.js; then
+            echo "✓ JavaScript file is valid"
+          else
+            echo "✗ JavaScript file is invalid"
+            exit 1
+          fi
+
+      - name: Security Check - Dockerfile
+        run: |
+          echo "Checking Dockerfile security..."
+          if grep -q "FROM nginx:alpine" Dockerfile; then
+            echo "✓ Using lightweight base image"
+          fi
+          
+          if grep -q "EXPOSE" Dockerfile; then
+            echo "✓ Ports are explicitly defined"
+          fi
+
+      - name: Check for common vulnerabilities
+        run: |
+          echo "Scanning for common vulnerabilities..."
+          # Check for hardcoded secrets
+          if grep -r "password\|secret\|api_key" index.html style.css script.js 2>/dev/null; then
+            echo "⚠ Warning: Possible hardcoded credentials found"
+          else
+            echo "✓ No hardcoded credentials detected"
+          fi

@@ -1,0 +1,122 @@
+# GitLab CI/CD Pipeline Configuration
+stages:
+  - validate
+  - build
+  - push
+  - deploy
+  - notify
+
+variables:
+  REGISTRY: docker.io
+  IMAGE_NAME: my-website
+  DOCKER_IMAGE: ${REGISTRY}/${CI_PROJECT_NAMESPACE}/${IMAGE_NAME}
+
+before_script:
+  - echo "Pipeline started for branch ${CI_COMMIT_BRANCH}"
+
+# Stage 1: Validation
+validate_code:
+  stage: validate
+  image: alpine:latest
+  script:
+    - echo "Validating code files..."
+    - test -f index.html || (echo "ERROR: index.html not found" && exit 1)
+    - test -f style.css || (echo "ERROR: style.css not found" && exit 1)
+    - test -f script.js || (echo "ERROR: script.js not found" && exit 1)
+    - test -f Dockerfile || (echo "ERROR: Dockerfile not found" && exit 1)
+    - echo "✓ All required files found"
+  only:
+    - main
+    - develop
+
+# Stage 2: Build Docker Image
+build_docker:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - echo "Building Docker image..."
+    - docker build -t ${IMAGE_NAME}:${CI_COMMIT_SHA} .
+    - docker build -t ${IMAGE_NAME}:latest .
+    - echo "Testing Docker image..."
+    - docker run -d -p 8080:80 --name test-container ${IMAGE_NAME}:latest
+    - sleep 3
+    - docker logs test-container
+    - echo "Docker image built successfully"
+  artifacts:
+    reports:
+      dotenv: build.env
+  only:
+    - main
+    - develop
+
+# Stage 3: Push to Docker Registry
+push_docker:
+  stage: push
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - echo "Logging in to Docker Hub..."
+    - docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${REGISTRY}
+    - echo "Tagging image..."
+    - docker build -t ${DOCKER_IMAGE}:${CI_COMMIT_SHA} .
+    - docker build -t ${DOCKER_IMAGE}:latest .
+    - echo "Pushing to Docker Hub..."
+    - docker push ${DOCKER_IMAGE}:${CI_COMMIT_SHA}
+    - docker push ${DOCKER_IMAGE}:latest
+    - echo "Push completed successfully"
+  only:
+    - main
+    - develop
+  when: on_success
+
+# Stage 4: Deploy to AWS EC2
+deploy_ec2:
+  stage: deploy
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache openssh-client
+    - mkdir -p ~/.ssh
+    - echo "${EC2_SSH_KEY}" > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -H ${EC2_HOST} >> ~/.ssh/known_hosts
+  script:
+    - echo "Deploying to EC2..."
+    - ssh -i ~/.ssh/id_rsa ubuntu@${EC2_HOST} << 'EOF'
+      docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+      docker pull ${DOCKER_IMAGE}:latest
+      docker stop my-website || true
+      docker rm my-website || true
+      docker run -d -p 80:8080 --restart always --name my-website ${DOCKER_IMAGE}:latest
+      echo "Deployment successful"
+      EOF
+  only:
+    - main
+  when: on_success
+
+# Stage 5: Slack Notification
+notify_slack:
+  stage: notify
+  image: curlimages/curl:latest
+  script:
+    - |
+      curl -X POST ${SLACK_WEBHOOK} \
+      -H 'Content-Type: application/json' \
+      -d "{
+        \"text\": \"CI/CD Pipeline: ${CI_PROJECT_NAME}\",
+        \"blocks\": [
+          {
+            \"type\": \"section\",
+            \"text\": {
+              \"type\": \"mrkdwn\",
+              \"text\": \"*${CI_PROJECT_NAME}*\nStatus: ${CI_JOB_STATUS}\nBranch: ${CI_COMMIT_BRANCH}\nCommit: ${CI_COMMIT_SHA}\"
+            }
+          }
+        ]
+      }"
+  only:
+    - main
+    - develop
+  when: always
