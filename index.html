@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShogunLabs - Cybersecurity Information & Password Checker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon">🛡️</span>
+                <span>ShogunLabs</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#threats">Threats</a></li>
+                <li><a href="#password-checker">Password Tool</a></li>
+                <li><a href="#best-practices">Best Practices</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Protect Your Digital Life</h1>
+                <p>Your trusted guide to cybersecurity awareness and protection</p>
+                <a href="#password-checker" class="cta-button">Check Your Password Strength</a>
+            </div>
+            <div class="hero-visual">
+                <div class="security-icon">
+                    <div class="shield">🔐</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Password Strength Checker -->
+    <section id="password-checker" class="password-checker-section">
+        <div class="container">
+            <h2>Password Strength Checker</h2>
+            <p class="section-subtitle">Create and test strong passwords instantly</p>
+            
+            <div class="checker-container">
+                <div class="password-input-group">
+                    <label for="password-input">Enter Password:</label>
+                    <div class="input-wrapper">
+                        <input 
+                            type="password" 
+                            id="password-input" 
+                            placeholder="Type your password..."
+                            class="password-input"
+                        >
+                        <button class="toggle-visibility" id="toggle-btn" title="Show/Hide password">
+                            👁️
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Strength Meter -->
+                <div class="strength-meter">
+                    <div class="strength-bar">
+                        <div class="strength-fill" id="strength-fill"></div>
+                    </div>
+                    <p class="strength-text">
+                        Strength: <span id="strength-label">Very Weak</span>
+                    </p>
+                </div>
+
+                <!-- Requirements Checklist -->
+                <div class="requirements">
+                    <h4>Password Requirements:</h4>
+                    <ul id="requirements-list">
+                        <li>
+                            <span class="req-check" id="length-check">✗</span>
+                            <span>At least 8 characters</span>
+                        </li>
+                        <li>
+                            <span class="req-check" id="uppercase-check">✗</span>
+                            <span>Contains uppercase letters (A-Z)</span>
+                        </li>
+                        <li>
+                            <span class="req-check" id="lowercase-check">✗</span>
+                            <span>Contains lowercase letters (a-z)</span>
+                        </li>
+                        <li>
+                            <span class="req-check" id="number-check">✗</span>
+                            <span>Contains numbers (0-9)</span>
+                        </li>
+                        <li>
+                            <span class="req-check" id="special-check">✗</span>
+                            <span>Contains special characters (!@#$%^&*)</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Password Score -->
+                <div class="score-card" id="score-card">
+                    <div class="score-display">
+                        <p class="score-title">Security Score</p>
+                        <p class="score-number" id="score-number">0%</p>
+                    </div>
+                    <div class="score-info">
+                        <p id="score-message">Enter a password to see the score</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Common Threats Section -->
+    <section id="threats" class="threats-section">
+        <div class="container">
+            <h2>Common Cybersecurity Threats</h2>
+            <p class="section-subtitle">Learn about the threats targeting your accounts</p>
+
+            <div class="threats-grid">
+                <div class="threat-card">
+                    <div class="threat-icon">🎣</div>
+                    <h3>Phishing Attacks</h3>
+                    <p>Fraudulent emails or websites designed to steal your personal information and credentials.</p>
+                    <div class="threat-tip">
+                        <strong>Protection:</strong> Never click links in unsolicited emails. Verify sender addresses carefully.
+                    </div>
+                </div>
+
+                <div class="threat-card">
+                    <div class="threat-icon">🤖</div>
+                    <h3>Malware & Ransomware</h3>
+                    <p>Malicious software that infects your system, steals data, or locks your files for ransom.</p>
+                    <div class="threat-tip">
+                        <strong>Protection:</strong> Keep software updated and use reputable antivirus software.
+                    </div>
+                </div>
+
+                <div class="threat-card">
+                    <div class="threat-icon">🔓</div>
+                    <h3>Weak Passwords</h3>
+                    <p>Simple passwords are easily cracked, compromising all your accounts and personal data.</p>
+                    <div class="threat-tip">
+                        <strong>Protection:</strong> Use unique, complex passwords for each account.
+                    </div>
+                </div>
+
+                <div class="threat-card">
+                    <div class="threat-icon">👁️</div>
+                    <h3>Data Breaches</h3>
+                    <p>Large-scale theft of personal information from companies, affecting millions of users.</p>
+                    <div class="threat-tip">
+                        <strong>Protection:</strong> Monitor your accounts and enable two-factor authentication.
+                    </div>
+                </div>
+
+                <div class="threat-card">
+                    <div class="threat-icon">⚡</div>
+                    <h3>Social Engineering</h3>
+                    <p>Manipulating people into divulging confidential information through psychological tactics.</p>
+                    <div class="threat-tip">
+                        <strong>Protection:</strong> Be skeptical of unexpected requests and verify identities independently.
+                    </div>
+                </div>
+
+                <div class="threat-card">
+                    <div class="threat-icon">🛜</div>
+                    <h3>Public WiFi Risks</h3>
+                    <p>Unsecured networks make it easy for attackers to intercept your data and communications.</p>
+                    <div class="threat-tip">
+                        <strong>Protection:</strong> Use VPN on public networks and avoid sensitive transactions.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Practices Section -->
+    <section id="best-practices" class="best-practices-section">
+        <div class="container">
+            <h2>Cybersecurity Best Practices</h2>
+            <p class="section-subtitle">Simple steps to secure your digital life</p>
+
+            <div class="practices-container">
+                <div class="practice-item">
+                    <div class="practice-number">1</div>
+                    <h3>Strong Passwords</h3>
+                    <p>Create unique, complex passwords with uppercase, lowercase, numbers, and special characters. Use a password manager to keep them secure.</p>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">2</div>
+                    <h3>Two-Factor Authentication</h3>
+                    <p>Enable 2FA on all important accounts. This adds an extra layer of security even if your password is compromised.</p>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">3</div>
+                    <h3>Software Updates</h3>
+                    <p>Always install security updates and patches promptly. Enable automatic updates whenever possible.</p>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">4</div>
+                    <h3>Secure Browsing</h3>
+                    <p>Use HTTPS websites, avoid suspicious links, and consider using a VPN for added privacy and security.</p>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">5</div>
+                    <h3>Data Backup</h3>
+                    <p>Regularly backup your important data to external drives or cloud services to protect against ransomware.</p>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">6</div>
+                    <h3>Security Awareness</h3>
+                    <p>Stay informed about current threats and scams. Think before clicking links or downloading files.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="stats-section">
+        <div class="container">
+            <h2>The Reality of Cybersecurity</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">60%</div>
+                    <p>of data breaches involve weak or stolen passwords</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3.2B</div>
+                    <p>accounts compromised in 2021 alone</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">81%</div>
+                    <p>of security incidents use weak credentials</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">$6.9M</div>
+                    <p>average cost of a data breach in 2023</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2>Get in Touch</h2>
+            <p class="section-subtitle">Questions? We're here to help</p>
+
+            <form class="contact-form" id="contact-form">
+                <div class="form-group">
+                    <input type="text" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Your Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Subject" required>
+                </div>
+                <div class="form-group">
+                    <textarea placeholder="Your Message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>ShogunLabs</h4>
+                    <p>Your partner in digital security and privacy.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#threats">Threats</a></li>
+                        <li><a href="#password-checker">Password Tool</a></li>
+                        <li><a href="#best-practices">Best Practices</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:info@ShogunLabs.com">info@ShogunLabs.com</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ShogunLabs. All rights reserved. | Security is our mission.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShogunLabs - Cybersecurity Information & Password Checker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon">🛡️</span>
+                <span>ShogunLabs</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#threats">Threats</a></li>
+                <li><a href="#password-checker">Password Tool</a></li>
+                <li><a href="#best-practices">Best Practices</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Protect Your Digital Life</h1>
+                <p>Your trusted guide to cybersecurity awareness and protection</p>
+                <a href="#password-checker" class="cta-button">Check Your Password Strength</a>
+            </div>
+            <div class="hero-visual">
+                <div class="security-icon">
+                    <div class="shield">🔐</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Password Strength Checker -->
+    <section id="password-checker" class="password-checker-section">
+        <div class="container">
+            <h2>Password Strength Checker</h2>
+            <p class="section-subtitle">Create and test strong passwords instantly</p>
+            
+            <div class="checker-container">
+                <div class="password-input-group">
+                    <label for="password-input">Enter Password:</label>
+                    <div class="input-wrapper">
+                        <input 
+                            type="password" 
+                            id="password-input" 
+                            placeholder="Type your password..."
+                            class="password-input"
+                        >
+                        <button class="toggle-visibility" id="toggle-btn" title="Show/Hide password">
+                            👁️
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Strength Meter -->
+                <div class="strength-meter">
+                    <div class="strength-bar">
+                        <div class="strength-fill" id="strength-fill"></div>
+                    </div>
+                    <p class="strength-text">
+                        Strength: <span id="strength-label">Very Weak</span>
+                    </p>
+                </div>
+
+                <!-- Requirements Checklist -->
+                <div class="requirements">
+                    <h4>Password Requirements:</h4>
+                    <ul id="requirements-list">
+                        <li>
+                            <span class="req-check" id="length-check">✗</span>
+                            <span>At least 8 characters</span>
+                        </li>
+                        <li>
+                            <span class="req-check" id="uppercase-check">✗</span>
+                            <span>Contains uppercase letters (A-Z)</span>
+                        </li>
+                        <li>
+                            <span class="req-check" id="lowercase-check">✗</span>
+                            <span>Contains lowercase letters (a-z)</span>
+                        </li>
+                        <li>
+                            <span class="req-check" id="number-check">✗</span>
+                            <span>Contains numbers (0-9)</span>
+                        </li>
+                        <li>
+                            <span class="req-check" id="special-check">✗</span>
+                            <span>Contains special characters (!@#$%^&*)</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Password Score -->
+                <div class="score-card" id="score-card">
+                    <div class="score-display">
+                        <p class="score-title">Security Score</p>
+                        <p class="score-number" id="score-number">0%</p>
+                    </div>
+                    <div class="score-info">
+                        <p id="score-message">Enter a password to see the score</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Common Threats Section -->
+    <section id="threats" class="threats-section">
+        <div class="container">
+            <h2>Common Cybersecurity Threats</h2>
+            <p class="section-subtitle">Learn about the threats targeting your accounts</p>
+
+            <div class="threats-grid">
+                <div class="threat-card">
+                    <div class="threat-icon">🎣</div>
+                    <h3>Phishing Attacks</h3>
+                    <p>Fraudulent emails or websites designed to steal your personal information and credentials.</p>
+                    <div class="threat-tip">
+                        <strong>Protection:</strong> Never click links in unsolicited emails. Verify sender addresses carefully.
+                    </div>
+                </div>
+
+                <div class="threat-card">
+                    <div class="threat-icon">🤖</div>
+                    <h3>Malware & Ransomware</h3>
+                    <p>Malicious software that infects your system, steals data, or locks your files for ransom.</p>
+                    <div class="threat-tip">
+                        <strong>Protection:</strong> Keep software updated and use reputable antivirus software.
+                    </div>
+                </div>
+
+                <div class="threat-card">
+                    <div class="threat-icon">🔓</div>
+                    <h3>Weak Passwords</h3>
+                    <p>Simple passwords are easily cracked, compromising all your accounts and personal data.</p>
+                    <div class="threat-tip">
+                        <strong>Protection:</strong> Use unique, complex passwords for each account.
+                    </div>
+                </div>
+
+                <div class="threat-card">
+                    <div class="threat-icon">👁️</div>
+                    <h3>Data Breaches</h3>
+                    <p>Large-scale theft of personal information from companies, affecting millions of users.</p>
+                    <div class="threat-tip">
+                        <strong>Protection:</strong> Monitor your accounts and enable two-factor authentication.
+                    </div>
+                </div>
+
+                <div class="threat-card">
+                    <div class="threat-icon">⚡</div>
+                    <h3>Social Engineering</h3>
+                    <p>Manipulating people into divulging confidential information through psychological tactics.</p>
+                    <div class="threat-tip">
+                        <strong>Protection:</strong> Be skeptical of unexpected requests and verify identities independently.
+                    </div>
+                </div>
+
+                <div class="threat-card">
+                    <div class="threat-icon">🛜</div>
+                    <h3>Public WiFi Risks</h3>
+                    <p>Unsecured networks make it easy for attackers to intercept your data and communications.</p>
+                    <div class="threat-tip">
+                        <strong>Protection:</strong> Use VPN on public networks and avoid sensitive transactions.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Practices Section -->
+    <section id="best-practices" class="best-practices-section">
+        <div class="container">
+            <h2>Cybersecurity Best Practices</h2>
+            <p class="section-subtitle">Simple steps to secure your digital life</p>
+
+            <div class="practices-container">
+                <div class="practice-item">
+                    <div class="practice-number">1</div>
+                    <h3>Strong Passwords</h3>
+                    <p>Create unique, complex passwords with uppercase, lowercase, numbers, and special characters. Use a password manager to keep them secure.</p>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">2</div>
+                    <h3>Two-Factor Authentication</h3>
+                    <p>Enable 2FA on all important accounts. This adds an extra layer of security even if your password is compromised.</p>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">3</div>
+                    <h3>Software Updates</h3>
+                    <p>Always install security updates and patches promptly. Enable automatic updates whenever possible.</p>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">4</div>
+                    <h3>Secure Browsing</h3>
+                    <p>Use HTTPS websites, avoid suspicious links, and consider using a VPN for added privacy and security.</p>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">5</div>
+                    <h3>Data Backup</h3>
+                    <p>Regularly backup your important data to external drives or cloud services to protect against ransomware.</p>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">6</div>
+                    <h3>Security Awareness</h3>
+                    <p>Stay informed about current threats and scams. Think before clicking links or downloading files.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="stats-section">
+        <div class="container">
+            <h2>The Reality of Cybersecurity</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">60%</div>
+                    <p>of data breaches involve weak or stolen passwords</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3.2B</div>
+                    <p>accounts compromised in 2021 alone</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">81%</div>
+                    <p>of security incidents use weak credentials</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">$6.9M</div>
+                    <p>average cost of a data breach in 2023</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2>Get in Touch</h2>
+            <p class="section-subtitle">Questions? We're here to help</p>
+
+            <form class="contact-form" id="contact-form">
+                <div class="form-group">
+                    <input type="text" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Your Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Subject" required>
+                </div>
+                <div class="form-group">
+                    <textarea placeholder="Your Message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>ShogunLabs</h4>
+                    <p>Your partner in digital security and privacy.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#threats">Threats</a></li>
+                        <li><a href="#password-checker">Password Tool</a></li>
+                        <li><a href="#best-practices">Best Practices</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:info@ShogunLabs.com">info@ShogunLabs.com</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Shogun Labs. All rights reserved. | Security is our mission.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
