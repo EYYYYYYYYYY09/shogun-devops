@@ -8,7 +8,10 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY index.html /usr/share/nginx/html/
 COPY style.css /usr/share/nginx/html/
 COPY script.js /usr/share/nginx/html/
+<<<<<<< HEAD
 COPY keydeploy.pem /usr/share/nginx/html/
+=======
+>>>>>>> b3f81969cd0a769e92ea66c82a1bd4745ffc7751
 
 # Expose port 80
 EXPOSE 80
